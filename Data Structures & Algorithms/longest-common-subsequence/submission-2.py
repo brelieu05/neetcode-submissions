@@ -1,0 +1,22 @@
+from functools import lru_cache
+
+class Solution:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        
+        memo = {}
+        def recurse(idx1, idx2):
+            
+            if (idx1, idx2) in memo:
+                return memo[(idx1, idx2)]
+            if idx1 >= len(text1) or idx2 >= len(text2):
+                return 0
+
+            if text1[idx1] == text2[idx2]:
+                return 1 + recurse(idx1 + 1, idx2 + 1)
+
+            memo[(idx1, idx2)] = max(recurse(idx1 + 1, idx2), recurse(idx1, idx2 + 1))
+
+            return max(recurse(idx1 + 1, idx2), recurse(idx1, idx2 + 1))
+            
+        
+        return recurse(0, 0)
